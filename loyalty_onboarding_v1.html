@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Loyalty Onboarding Flow — Scope Document v1</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+
+@page { size: A4; margin: 0; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #0f172a;
+  background: #ffffff;
+  max-width: 794px;
+  margin: 0 auto;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+/* ── ACCENT ── */
+.accent-bar { height: 5px; background: linear-gradient(90deg, #1e3a8a 0%, #2563eb 100%); }
+
+.wrap { padding: 44px 52px 56px; }
+
+/* ── COVER ── */
+.cover {
+  padding-bottom: 36px;
+  margin-bottom: 44px;
+  border-bottom: 1.5px solid #e2e8f0;
+}
+.cover-eyebrow {
+  font-size: 10px; font-weight: 700; letter-spacing: 0.14em;
+  text-transform: uppercase; color: #2563eb; margin-bottom: 14px;
+}
+.cover-title {
+  font-size: 28px; font-weight: 700; line-height: 1.15;
+  letter-spacing: -0.02em; color: #0f172a; margin-bottom: 14px;
+}
+.cover-sub {
+  font-size: 13.5px; line-height: 1.7; color: #475569;
+  max-width: 530px; margin-bottom: 28px;
+}
+.cover-meta {
+  display: flex; align-items: center; gap: 0; flex-wrap: wrap;
+}
+.cover-meta-item {
+  font-size: 11.5px; color: #64748b;
+  padding-right: 16px; margin-right: 16px;
+  border-right: 1px solid #cbd5e1;
+}
+.cover-meta-item:last-child { border-right: none; padding-right: 0; margin-right: 0; }
+
+/* ── BADGE ── */
+.badge {
+  display: inline-block; font-size: 10px; font-weight: 600;
+  letter-spacing: 0.03em; padding: 3px 9px; border-radius: 20px;
+  vertical-align: middle;
+}
+.badge-blue   { background: #dbeafe; color: #1d4ed8; }
+.badge-green  { background: #dcfce7; color: #15803d; }
+.badge-amber  { background: #fef3c7; color: #b45309; }
+.badge-purple { background: #ede9fe; color: #6d28d9; }
+.badge-red    { background: #fee2e2; color: #b91c1c; }
+.badge-gray   { background: #f1f5f9; color: #64748b; border: 0.5px solid #e2e8f0; }
+.badge-navy   { background: #1e3a8a; color: #ffffff; }
+.badge-v1     { background: #fef3c7; color: #92400e; font-size: 10px; font-weight: 700; padding: 3px 10px; border-radius: 20px; }
+
+/* ── SECTION ── */
+section { margin-bottom: 48px; page-break-inside: avoid; }
+.section-head {
+  display: flex; align-items: center; gap: 12px;
+  border-top: 1.5px solid #e2e8f0;
+  padding-top: 20px; margin-bottom: 16px;
+}
+.section-num { font-size: 10px; font-weight: 700; letter-spacing: 0.12em; color: #2563eb; white-space: nowrap; }
+h2 { font-size: 17px; font-weight: 700; letter-spacing: -0.01em; color: #0f172a; }
+h3 { font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: #64748b; margin: 24px 0 10px; }
+p { color: #334155; margin-bottom: 12px; font-size: 13px; line-height: 1.75; }
+p:last-child { margin-bottom: 0; }
+
+/* ── CALLOUT ── */
+.callout {
+  border-radius: 0 8px 8px 0; padding: 14px 18px;
+  margin: 16px 0; border-left: 4px solid; page-break-inside: avoid;
+}
+.callout-blue   { background: #eff6ff; border-color: #2563eb; }
+.callout-green  { background: #f0fdf4; border-color: #16a34a; }
+.callout-amber  { background: #fffbeb; border-color: #d97706; }
+.callout-purple { background: #f5f3ff; border-color: #7c3aed; }
+.cl { font-size: 9.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 5px; }
+.callout-blue   .cl { color: #1d4ed8; }
+.callout-green  .cl { color: #15803d; }
+.callout-amber  .cl { color: #b45309; }
+.callout-purple .cl { color: #6d28d9; }
+.callout p { margin-bottom: 0; font-size: 12.5px; line-height: 1.65; }
+
+/* ── TABLE ── */
+.table-wrap { border: 1px solid #e2e8f0; border-radius: 10px; overflow: hidden; margin: 14px 0; page-break-inside: avoid; }
+table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+th { background: #f8fafc; font-size: 9.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.09em; color: #64748b; padding: 10px 16px; text-align: left; border-bottom: 1px solid #e2e8f0; }
+td { padding: 10px 16px; border-bottom: 1px solid #f1f5f9; color: #334155; vertical-align: top; line-height: 1.6; }
+tr:last-child td { border-bottom: none; }
+tr:nth-child(even) td { background: #fafafa; }
+
+/* ── TWO COL ── */
+.two-col { display: flex; gap: 14px; margin: 14px 0; }
+.card { flex: 1; min-width: 0; border: 1px solid #e2e8f0; border-radius: 10px; padding: 18px 20px; background: #fff; page-break-inside: avoid; }
+.card-title { font-size: 12px; font-weight: 700; color: #0f172a; margin-bottom: 10px; padding-bottom: 8px; border-bottom: 1px solid #f1f5f9; }
+.card ul { padding-left: 16px; margin: 0; }
+.card li { font-size: 12px; color: #475569; margin-bottom: 4px; line-height: 1.55; }
+
+/* ── STEPS ── */
+.steps { margin: 14px 0; }
+.step { display: flex; gap: 14px; position: relative; padding-bottom: 22px; page-break-inside: avoid; }
+.step:not(:last-child)::after { content: ''; position: absolute; left: 14px; top: 30px; bottom: 2px; width: 2px; background: #f1f5f9; }
+.dot { width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; color: #fff; flex-shrink: 0; margin-top: 1px; }
+.dot-blue   { background: #2563eb; }
+.dot-green  { background: #16a34a; }
+.dot-purple { background: #7c3aed; }
+.dot-amber  { background: #d97706; }
+.dot-gray   { background: #94a3b8; }
+.dot-red    { background: #dc2626; }
+.dot-navy   { background: #1e3a8a; }
+.step-body { flex: 1; padding-top: 4px; }
+.step-title { font-size: 13px; font-weight: 600; color: #0f172a; margin-bottom: 3px; }
+.step-desc { font-size: 12px; color: #64748b; line-height: 1.6; }
+
+/* ── DIAGRAM ── */
+.diagram-wrap { border: 1px solid #e2e8f0; border-radius: 12px; padding: 24px 20px 16px; background: #fafbfc; margin: 16px 0; page-break-inside: avoid; }
+.diagram-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: #94a3b8; margin-bottom: 18px; text-align: center; }
+
+/* ── STATUS PILLS ROW ── */
+.status-row { display: flex; align-items: center; gap: 0; margin: 16px 0; }
+.status-pill { flex: 1; text-align: center; padding: 12px 8px; border: 1px solid #e2e8f0; background: #f8fafc; }
+.status-pill:first-child { border-radius: 8px 0 0 8px; }
+.status-pill:last-child  { border-radius: 0 8px 8px 0; }
+.status-pill.active-s { background: #eff6ff; border-color: #bfdbfe; }
+.status-pill.active-s .sp-label { color: #1d4ed8; }
+.status-pill.enrolled-s { background: #f0fdf4; border-color: #86efac; }
+.status-pill.enrolled-s .sp-label { color: #15803d; }
+.sp-label { font-size: 12px; font-weight: 700; color: #334155; display: block; }
+.sp-desc  { font-size: 10.5px; color: #94a3b8; margin-top: 3px; display: block; line-height: 1.4; }
+.status-arrow { font-size: 16px; color: #cbd5e1; flex-shrink: 0; padding: 0 4px; }
+
+/* ── FOOTER ── */
+.footer { border-top: 1px solid #e2e8f0; padding-top: 16px; margin-top: 48px; display: flex; justify-content: space-between; align-items: center; font-size: 10.5px; color: #94a3b8; }
+
+.page-break { page-break-before: always; }
+
+@media print {
+  body { max-width: 100%; padding: 0; }
+  .wrap { padding: 36px 44px 48px; }
+}
+</style>
+</head>
+<body>
+
+<div class="accent-bar"></div>
+<div class="wrap">
+
+<!-- ══════════════════════════════════════
+     COVER
+══════════════════════════════════════ -->
+<div class="cover">
+  <div class="cover-eyebrow">Solution Document · Version 1</div>
+  <h1 class="cover-title">Loyalty Onboarding Flow</h1>
+  <p class="cover-sub">
+    Scope document covering outlet registration for loyalty, KYC verification,
+    campaign enrollment, manager approval flows, GT user dashboard, and
+    the loyalty view inside the call preparation screen.
+  </p>
+  <div class="cover-meta">
+    <span class="cover-meta-item">May 2026</span>
+    <span class="cover-meta-item">Version 1.0</span>
+    <span class="cover-meta-item"><span class="badge badge-v1">Draft · Subject to iteration</span></span>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════
+     01 — END-TO-END FLOW DIAGRAM
+══════════════════════════════════════ -->
+<section>
+  <div class="section-head">
+    <span class="section-num">01</span>
+    <h2>End-to-end flow</h2>
+  </div>
+  <p>
+    The diagram below shows the complete onboarding lifecycle — from a GT user initiating
+    a loyalty registration through KYC, manager approval, campaign enrollment, and
+    the outlet's final loyalty status visible in the GT app.
+  </p>
+
+  <div class="diagram-wrap">
+    <div class="diagram-label">Figure 1 &nbsp;·&nbsp; Loyalty onboarding end-to-end flow</div>
+
+    <svg width="100%" viewBox="0 0 640 1060" xmlns="http://www.w3.org/2000/svg" style="display:block;max-width:580px;margin:0 auto;">
+      <defs>
+        <marker id="a0" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+          <path d="M2 1L8 5L2 9" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </marker>
+        <marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+          <path d="M2 1L8 5L2 9" fill="none" stroke="#16a34a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </marker>
+        <marker id="ap" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+          <path d="M2 1L8 5L2 9" fill="none" stroke="#7c3aed" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </marker>
+        <marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+          <path d="M2 1L8 5L2 9" fill="none" stroke="#dc2626" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </marker>
+      </defs>
+
+      <!-- Step 1: GT User initiates -->
+      <rect x="170" y="16" width="300" height="52" rx="8" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"/>
+      <text x="320" y="37" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="12" font-weight="600" fill="#0f172a">GT user selects outlet</text>
+      <text x="320" y="55" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="10.5" fill="#64748b">Outlet master data pre-loaded from FA</text>
+
+      <!-- connector 1→2 -->
+      <line x1="320" y1="68" x2="320" y2="90" stroke="#cbd5e1" stroke-width="1.5" marker-end="url(#a0)"/>
+
+      <!-- Step 2: KYC capture -->
+      <rect x="170" y="91" width="300" height="52" rx="8" fill="#eff6ff" stroke="#bfdbfe" stroke-width="1"/>
+      <text x="320" y="112" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="12" font-weight="600" fill="#1d4ed8">KYC details captured</text>
+      <text x="320" y="130" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="10.5" fill="#3b82f6">Documents &amp; details as configured by admin</text>
+      <!-- annotation: KYC API -->
+      <rect x="490" y="93" width="140" height="48" rx="7" fill="#fffbeb" stroke="#fde68a" stroke-width="0.8"/>
+      <text x="560" y="111" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="10" font-weight="600" fill="#d97706">3rd party KYC API</text>
+      <text x="560" y="126" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="9.5" fill="#92400e">verification in background</text>
+      <line x1="470" y1="117" x2="490" y2="117" stroke="#fde68a" stroke-width="0.8" stroke-dasharray="3 2"/>
+
+      <!-- connector 2→3 -->
+      <line x1="320" y1="143" x2="320" y2="165" stroke="#cbd5e1" stroke-width="1.5" marker-end="url(#a0)"/>
+
+      <!-- Step 3: Campaign selection -->
+      <rect x="170" y="166" width="300" height="52" rx="8" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"/>
+      <text x="320" y="187" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="12" font-weight="600" fill="#0f172a">Campaign selection (optional)</text>
+      <text x="320" y="205" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="10.5" fill="#64748b">GT user may enroll outlet in campaigns at this step</text>
+
+      <!-- connector 3→4 -->
+      <line x1="320" y1="218" x2="320" y2="240" stroke="#cbd5e1" stroke-width="1.5" marker-end="url(#a0)"/>
+
+      <!-- Step 4: Request submitted -->
+      <rect x="170" y="241" width="300" height="52" rx="8" fill="#f5f3ff" stroke="#ddd6fe" stroke-width="1"/>
+      <text x="320" y="262" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="12" font-weight="600" fill="#6d28d9">Registration request submitted</text>
+      <text x="320" y="280" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="10.5" fill="#7c3aed">enters approval queue · FA hierarchy</text>
+
+      <!-- connector 4→5 -->
+      <line x1="320" y1="293" x2="320" y2="315" stroke="#7c3aed" stroke-width="1.5" marker-end="url(#ap)"/>
+
+      <!-- Step 5: Manager review -->
+      <rect x="170" y="316" width="300" height="52" rx="8" fill="#f5f3ff" stroke="#ddd6fe" stroke-width="1"/>
+      <text x="320" y="337" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="12" font-weight="600" fill="#6d28d9">Manager reviews request</text>
+      <text x="320" y="355" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="10.5" fill="#7c3aed">Approve · Reject · Add / change campaigns</text>
+      <!-- annotation: manager view -->
+      <rect x="490" y="310" width="140" height="64" rx="7" fill="#f5f3ff" stroke="#ddd6fe" stroke-width="0.8"/>
+      <text x="560" y="330" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="10" font-weight="600" fill="#7c3aed">Manager sees</text>
+      <text x="560" y="344" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="9.5" fill="#6d28d9">Outlet details · KYC status</text>
+      <text x="560" y="358" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="9.5" fill="#6d28d9">Requested campaigns</text>
+      <line x1="470" y1="348" x2="490" y2="348" stroke="#ddd6fe" stroke-width="0.8" stroke-dasharray="3 2"/>
+
+      <!-- connector 5→Diamond -->
+      <line x1="320" y1="368" x2="320" y2="390" stroke="#cbd5e1" stroke-width="1.5" marker-end="url(#a0)"/>
+
+      <!-- Diamond: Approved? -->
+      <polygon points="320,392 450,418 320,444 190,418" fill="#fffbeb" stroke="#fbbf24" stroke-width="1"/>
+      <text x="320" y="414" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="11" font-weight="600" fill="#92400e">Approved?</text>
+
+      <!-- Yes down -->
+      <text x="328" y="458" font-family="Inter,Arial,sans-serif" font-size="10" font-weight="600" fill="#16a34a">Yes</text>
+      <line x1="320" y1="444" x2="320" y2="468" stroke="#cbd5e1" stroke-width="1.5" marker-end="url(#a0)"/>
+
+      <!-- Reject right -->
+      <text x="453" y="413" font-family="Inter,Arial,sans-serif" font-size="10" font-weight="600" fill="#dc2626">Rejected</text>
+      <path d="M450,418 L540,418" fill="none" stroke="#dc2626" stroke-width="1.2" stroke-dasharray="5 3" marker-end="url(#ar)"/>
+      <rect x="541" y="398" width="90" height="40" rx="7" fill="#fef2f2" stroke="#fecaca" stroke-width="0.8"/>
+      <text x="586" y="414" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="11" font-weight="600" fill="#b91c1c">Request</text>
+      <text x="586" y="428" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="10" fill="#dc2626">rejected</text>
+
+      <!-- Step 6: Outlet Registered -->
+      <rect x="170" y="469" width="300" height="52" rx="8" fill="#f0fdf4" stroke="#86efac" stroke-width="1"/>
+      <text x="320" y="490" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="12" font-weight="600" fill="#15803d">Outlet status → Registered</text>
+      <text x="320" y="508" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="10.5" fill="#16a34a">Loyalty enabled · KYC verified</text>
+
+      <!-- connector 6→Diamond2 -->
+      <line x1="320" y1="521" x2="320" y2="543" stroke="#cbd5e1" stroke-width="1.5" marker-end="url(#a0)"/>
+
+      <!-- Diamond 2: Campaign selected? -->
+      <polygon points="320,545 450,571 320,597 190,571" fill="#fffbeb" stroke="#fbbf24" stroke-width="1"/>
+      <text x="320" y="567" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="11" font-weight="600" fill="#92400e">Campaign</text>
+      <text x="320" y="581" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="11" font-weight="600" fill="#92400e">selected?</text>
+
+      <!-- Yes -->
+      <text x="328" y="611" font-family="Inter,Arial,sans-serif" font-size="10" font-weight="600" fill="#16a34a">Yes</text>
+      <line x1="320" y1="597" x2="320" y2="619" stroke="#cbd5e1" stroke-width="1.5" marker-end="url(#a0)"/>
+
+      <!-- No -->
+      <text x="453" y="566" font-family="Inter,Arial,sans-serif" font-size="10" font-weight="600" fill="#94a3b8">No</text>
+      <path d="M450,571 L512,571" fill="none" stroke="#cbd5e1" stroke-width="1.2" stroke-dasharray="5 3" marker-end="url(#a0)"/>
+      <rect x="513" y="551" width="118" height="40" rx="7" fill="#f8fafc" stroke="#e2e8f0" stroke-width="0.8"/>
+      <text x="572" y="567" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="11" font-weight="600" fill="#334155">Registered only</text>
+      <text x="572" y="581" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="9.5" fill="#94a3b8">end of flow</text>
+
+      <!-- Step 7: Enrolled -->
+      <rect x="170" y="620" width="300" height="52" rx="8" fill="#f0fdf4" stroke="#86efac" stroke-width="1"/>
+      <text x="320" y="641" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="12" font-weight="600" fill="#15803d">Outlet status → Enrolled</text>
+      <text x="320" y="659" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="10.5" fill="#16a34a">Active in selected loyalty campaigns</text>
+
+      <!-- connector 7→8 -->
+      <line x1="320" y1="672" x2="320" y2="694" stroke="#16a34a" stroke-width="1.5" marker-end="url(#ag)"/>
+
+      <!-- Step 8: GT Dashboard + Call prep -->
+      <rect x="170" y="695" width="300" height="52" rx="8" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"/>
+      <text x="320" y="716" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="12" font-weight="600" fill="#0f172a">Visible in GT app</text>
+      <text x="320" y="734" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="10.5" fill="#64748b">Dashboard · request tracking · call prep CTA</text>
+
+      <!-- connector 8→9 (standalone enrolment) -->
+      <line x1="320" y1="747" x2="320" y2="769" stroke="#cbd5e1" stroke-width="1.5" marker-end="url(#a0)"/>
+      <text x="328" y="760" font-family="Inter,Arial,sans-serif" font-size="9.5" fill="#94a3b8">or later…</text>
+
+      <!-- Step 9: Standalone enrollment -->
+      <rect x="170" y="770" width="300" height="52" rx="8" fill="#f5f3ff" stroke="#ddd6fe" stroke-width="1"/>
+      <text x="320" y="791" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="12" font-weight="600" fill="#6d28d9">Standalone campaign enrollment</text>
+      <text x="320" y="809" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="10.5" fill="#7c3aed">GT user raises enrollment request · approval required</text>
+
+      <!-- connector 9→10 -->
+      <line x1="320" y1="822" x2="320" y2="844" stroke="#7c3aed" stroke-width="1.5" marker-end="url(#ap)"/>
+
+      <!-- Step 10: Enrolled via standalone -->
+      <rect x="170" y="845" width="300" height="52" rx="8" fill="#f0fdf4" stroke="#86efac" stroke-width="1"/>
+      <text x="320" y="866" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="12" font-weight="600" fill="#15803d">Outlet status → Enrolled</text>
+      <text x="320" y="884" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="10.5" fill="#16a34a">Enrolled via standalone flow · same outcome</text>
+
+      <!-- Legend -->
+      <line x1="170" y1="918" x2="470" y2="918" stroke="#e2e8f0" stroke-width="0.8"/>
+      <circle cx="180" cy="928" r="5" fill="#f8fafc" stroke="#e2e8f0" stroke-width="0.8"/>
+      <text x="190" y="931" font-family="Inter,Arial,sans-serif" font-size="9" fill="#94a3b8">GT action</text>
+      <circle cx="248" cy="928" r="5" fill="#f5f3ff" stroke="#ddd6fe" stroke-width="0.8"/>
+      <text x="258" y="931" font-family="Inter,Arial,sans-serif" font-size="9" fill="#94a3b8">Approval</text>
+      <circle cx="308" cy="928" r="5" fill="#f0fdf4" stroke="#86efac" stroke-width="0.8"/>
+      <text x="318" y="931" font-family="Inter,Arial,sans-serif" font-size="9" fill="#94a3b8">Registered / Enrolled</text>
+      <circle cx="420" cy="928" r="5" fill="#fef2f2" stroke="#fecaca" stroke-width="0.8"/>
+      <text x="430" y="931" font-family="Inter,Arial,sans-serif" font-size="9" fill="#94a3b8">Rejected</text>
+    </svg>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════
+     02 — OUTLET STATUS LIFECYCLE
+══════════════════════════════════════ -->
+<section>
+  <div class="section-head">
+    <span class="section-num">02</span>
+    <h2>Outlet status lifecycle</h2>
+  </div>
+  <p>
+    Every outlet in the system carries one of three loyalty statuses at any given time.
+    Status progresses in one direction — an outlet cannot move from Enrolled back to
+    Not Registered without an administrative action.
+  </p>
+
+  <div class="status-row">
+    <div class="status-pill">
+      <span class="sp-label">Not Registered</span>
+      <span class="sp-desc">Outlet exists in FA.<br>No loyalty setup initiated.</span>
+    </div>
+    <div class="status-arrow">→</div>
+    <div class="status-pill active-s">
+      <span class="sp-label">Registered</span>
+      <span class="sp-desc">KYC complete. Loyalty<br>enabled. No campaign yet.</span>
+    </div>
+    <div class="status-arrow">→</div>
+    <div class="status-pill enrolled-s">
+      <span class="sp-label">Enrolled</span>
+      <span class="sp-desc">Registered + active in<br>at least one campaign.</span>
+    </div>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th style="width:160px;">Status</th>
+          <th>Trigger</th>
+          <th>What it means</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="badge badge-gray">Not Registered</span></td>
+          <td>Default state for all outlets</td>
+          <td>Outlet is in the FA outlet master but has not been submitted for loyalty registration. No loyalty interaction is possible.</td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-blue">Registered</span></td>
+          <td>Registration request approved by manager</td>
+          <td>KYC has been verified, loyalty is enabled for this outlet. The outlet is eligible to be enrolled in campaigns but has not yet joined one.</td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-green">Enrolled</span></td>
+          <td>Campaign selected at registration OR standalone enrollment approved</td>
+          <td>Outlet is registered and participating in at least one active loyalty campaign. Points calculation, approval, and reward flows are active for this outlet.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════
+     03 — OUTLET REGISTRATION FLOW
+══════════════════════════════════════ -->
+<section class="page-break">
+  <div class="section-head">
+    <span class="section-num">03</span>
+    <h2>Outlet registration flow</h2>
+  </div>
+  <p>
+    The registration flow is initiated by a GT sales user from within the GT app.
+    The outlet's core information (name, address, type, distributor mapping) already
+    exists in the FA outlet master — the registration step captures only the
+    loyalty-specific KYC information required to enable the outlet for rewards.
+  </p>
+
+  <h3>Registration steps</h3>
+  <div class="steps">
+    <div class="step">
+      <div class="dot dot-navy">1</div>
+      <div class="step-body">
+        <div class="step-title">GT user selects the outlet</div>
+        <div class="step-desc">User opens the loyalty section in the GT app and selects the outlet they want to register. Outlet master data (name, address, type, distributor) is pre-loaded — the user does not re-enter it.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="dot dot-blue">2</div>
+      <div class="step-body">
+        <div class="step-title">KYC details captured</div>
+        <div class="step-desc">The user captures the outlet's KYC information as configured by the admin — documents and data fields required for verification are defined in the admin configuration. A third-party KYC API verifies the submitted information in the background.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="dot dot-blue">3</div>
+      <div class="step-body">
+        <div class="step-title">Campaign selection (optional)</div>
+        <div class="step-desc">The user can optionally select one or more loyalty campaigns to enroll the outlet in at this stage. If no campaign is selected, the outlet will be registered only — enrollment can happen separately later.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="dot dot-purple">4</div>
+      <div class="step-body">
+        <div class="step-title">Request submitted for approval</div>
+        <div class="step-desc">The registration request — including KYC data and any selected campaigns — is submitted. It enters the manager approval queue automatically via the Approval Mechanism (Registration approval type).</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="dot dot-purple">5</div>
+      <div class="step-body">
+        <div class="step-title">Manager reviews and decides</div>
+        <div class="step-desc">The manager sees the outlet details, KYC verification status, and the requested campaigns. They can approve, reject, or modify the campaign selection before approving. This is the only approval flow in the system where the approver can edit the request — specifically campaign selection only.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="dot dot-green">6</div>
+      <div class="step-body">
+        <div class="step-title">Outlet registered (and optionally enrolled)</div>
+        <div class="step-desc">On approval, outlet status moves to Registered. If campaigns were part of the approved request, the outlet is simultaneously enrolled and status moves to Enrolled. If the request is rejected, the outlet remains Not Registered and the GT user is notified.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout callout-amber">
+    <div class="cl">Key distinction — manager edit rights</div>
+    <p>Registration approval is the only approval type in this system where the manager can modify the request — specifically the campaign selection. All other approval flows in the loyalty module are approve-only with no edit capability. This distinction is intentional and should be reflected in the approval configuration.</p>
+  </div>
+
+  <h3>KYC configuration</h3>
+  <p>
+    The specific documents and data fields required during KYC are configured by the
+    admin user — not hardcoded in the flow. The admin defines which documents must be
+    uploaded and which fields must be filled before a registration request can be submitted.
+    This allows the KYC requirements to be tailored per company or program without any
+    development change.
+  </p>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Configuration item</th><th>Configured by</th><th>Notes</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Required KYC documents</td><td>Admin user</td><td>e.g. identity proof, business proof, tax documents — defined in admin configuration</td></tr>
+        <tr><td>Required data fields</td><td>Admin user</td><td>e.g. financial details, contact information — fields and labels set by admin</td></tr>
+        <tr><td>Document verification</td><td>Platform (third-party API)</td><td>Verification of submitted documents via configurable third-party KYC API</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════
+     04 — STANDALONE CAMPAIGN ENROLLMENT
+══════════════════════════════════════ -->
+<section>
+  <div class="section-head">
+    <span class="section-num">04</span>
+    <h2>Standalone campaign enrollment</h2>
+  </div>
+  <p>
+    For outlets that are already Registered but not yet Enrolled in a campaign,
+    the GT user can raise a standalone campaign enrollment request. This flow is
+    separate from the registration flow and follows its own approval type configured
+    by the company.
+  </p>
+
+  <div class="steps">
+    <div class="step">
+      <div class="dot dot-navy">1</div>
+      <div class="step-body">
+        <div class="step-title">GT user opens a registered outlet</div>
+        <div class="step-desc">From the loyalty dashboard or call prep screen, the user selects a Registered outlet and initiates campaign enrollment.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="dot dot-blue">2</div>
+      <div class="step-body">
+        <div class="step-title">Campaign selected</div>
+        <div class="step-desc">User selects one or more active campaigns to enroll the outlet in. Only campaigns for which the outlet is eligible (based on cohort configuration) are shown.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="dot dot-purple">3</div>
+      <div class="step-body">
+        <div class="step-title">Enrollment request submitted for approval</div>
+        <div class="step-desc">Request enters the approval queue via the Approval Mechanism — using the Campaign Enrollment approval type (separate from the Registration approval type). The approval hierarchy and rules are configurable by the company.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="dot dot-green">4</div>
+      <div class="step-body">
+        <div class="step-title">Outlet status → Enrolled</div>
+        <div class="step-desc">On approval, the outlet is enrolled in the selected campaigns. Status updates to Enrolled. Points calculation, reward slabs, and the full loyalty engine are now active for this outlet under the enrolled programs.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout callout-blue">
+    <div class="cl">Eligibility</div>
+    <p>Which outlets are eligible for loyalty registration and which campaigns they can be enrolled in is controlled by the Admin using the Cohort configuration. The GT user only sees outlets and campaigns for which the outlet qualifies — eligibility filtering is handled by the system, not the user.</p>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════
+     05 — APPROVAL MECHANISM
+══════════════════════════════════════ -->
+<section>
+  <div class="section-head">
+    <span class="section-num">05</span>
+    <h2>Approval mechanism</h2>
+  </div>
+  <p>
+    The onboarding flow uses the same underlying Approval Mechanism framework used
+    across the loyalty module. Two distinct approval types are configured for onboarding —
+    one for outlet registration and one for campaign enrollment. Each type has its own
+    rules, hierarchy, and behaviour configured independently by the company.
+  </p>
+
+  <div class="two-col">
+    <div class="card">
+      <div class="card-title">Registration approval type</div>
+      <ul>
+        <li>Triggered on registration request submission</li>
+        <li>Travels through FA manager hierarchy (L1/L2)</li>
+        <li>Manager can approve, reject, or modify campaigns</li>
+        <li>Multi-level support based on company config</li>
+        <li>Rejection returns outlet to Not Registered state</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-title">Campaign enrollment approval type</div>
+      <ul>
+        <li>Triggered on standalone enrollment request</li>
+        <li>Separate approval rules configured by company</li>
+        <li>Uses same FA hierarchy</li>
+        <li>Approve only — no campaign modification at this stage</li>
+        <li>Rejection keeps outlet in Registered state</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th style="width:180px;">Approval type</th>
+          <th style="width:130px;">Approver actions</th>
+          <th>Outcome on approval</th>
+          <th>Outcome on rejection</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="badge badge-purple">Registration</span></td>
+          <td>Approve · Reject · Modify campaigns</td>
+          <td>Outlet → Registered (or Enrolled if campaign included)</td>
+          <td>Outlet remains Not Registered</td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-blue">Campaign enrollment</span></td>
+          <td>Approve · Reject</td>
+          <td>Outlet → Enrolled in selected campaigns</td>
+          <td>Outlet remains Registered only</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout callout-purple">
+    <div class="cl">Note</div>
+    <p>Approval type configuration — including hierarchy rules, number of levels, and role assignments — will be detailed as part of the development phase. The framework is shared across the loyalty module; only the configuration differs per approval type.</p>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════
+     06 — GT USER DASHBOARD
+══════════════════════════════════════ -->
+<section class="page-break">
+  <div class="section-head">
+    <span class="section-num">06</span>
+    <h2>GT user dashboard</h2>
+  </div>
+  <p>
+    The GT user has a dedicated loyalty dashboard in the GT app that gives them
+    a complete picture of outlet loyalty status across their territory — how many
+    outlets are eligible, how many are already registered or enrolled, and the
+    current state of all pending requests.
+  </p>
+
+  <h3>Dashboard metrics</h3>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th style="width:220px;">Metric</th><th>Description</th><th style="width:160px;">Source</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Total eligible outlets</td>
+          <td>Outlets in the GT user's territory that qualify for loyalty based on admin cohort configuration.</td>
+          <td>Cohort definition</td>
+        </tr>
+        <tr>
+          <td>Already registered</td>
+          <td>Outlets with status Registered or Enrolled — loyalty has been enabled.</td>
+          <td>Loyalty status master</td>
+        </tr>
+        <tr>
+          <td>Enrolled in campaigns</td>
+          <td>Outlets currently active in at least one loyalty campaign.</td>
+          <td>Loyalty status master</td>
+        </tr>
+        <tr>
+          <td>Pending requests</td>
+          <td>Registration or enrollment requests raised by this GT user that are awaiting manager action.</td>
+          <td>Approval request queue</td>
+        </tr>
+        <tr>
+          <td>Not yet registered</td>
+          <td>Eligible outlets for which no registration request has been raised — representing the remaining opportunity.</td>
+          <td>Cohort vs status delta</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Request tracking section</h3>
+  <p>
+    Within the dashboard, the GT user can navigate to a Request section that shows
+    all registration and enrollment requests they have raised. Each request shows
+    its current status in the approval queue.
+  </p>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th style="width:160px;">Status</th><th>What it means</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="badge badge-amber">Pending</span></td>
+          <td>Request has been submitted and is awaiting manager action at the current approval stage.</td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-blue">In Progress</span></td>
+          <td>At least one approval stage has been cleared; request is awaiting the next level of approval.</td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-green">Approved</span></td>
+          <td>All approval stages cleared. Outlet status has been updated accordingly.</td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-red">Rejected</span></td>
+          <td>Request has been declined by a manager. GT user can view the reason and raise a new request if needed.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════
+     07 — CALL PREP LOYALTY VIEW
+══════════════════════════════════════ -->
+<section>
+  <div class="section-head">
+    <span class="section-num">07</span>
+    <h2>Call prep screen — loyalty view</h2>
+  </div>
+  <p>
+    On the outlet call preparation screen in the GT app, a dedicated Loyalty CTA is
+    displayed for every outlet. This gives the GT user a complete picture of the outlet's
+    loyalty position before a visit — enabling informed, loyalty-led sales conversations.
+  </p>
+
+  <h3>Entry point</h3>
+  <p>
+    A Loyalty CTA appears on the call prep screen regardless of the outlet's current
+    loyalty status. The label and content behind the CTA adapts based on status —
+    giving the GT user the right information and the right next action at every stage.
+  </p>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th style="width:160px;">Outlet status</th>
+          <th>CTA behaviour</th>
+          <th>What the GT user sees on tap</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="badge badge-gray">Not Registered</span></td>
+          <td>Register for Loyalty</td>
+          <td>Opens the registration flow directly. GT user can complete KYC and submit the request from here.</td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-blue">Registered</span></td>
+          <td>Enroll in Campaign</td>
+          <td>Shows loyalty status confirmation. Offers option to raise a campaign enrollment request.</td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-green">Enrolled</span></td>
+          <td>View Loyalty</td>
+          <td>Full loyalty view — all active campaigns, targets, current achievement, points earned, slab progress, and reward structure. Identical to the retailer view.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Enrolled outlet — full loyalty view</h3>
+  <p>
+    When the outlet is Enrolled, tapping the Loyalty CTA opens a comprehensive view
+    of the outlet's loyalty activity. This view mirrors what the outlet sees in their
+    own retailer app — giving the GT user the same visibility as the outlet owner.
+  </p>
+
+  <div class="two-col">
+    <div class="card">
+      <div class="card-title">Program information</div>
+      <ul>
+        <li>Active campaign names and period</li>
+        <li>Program type (base, multiplier, quarterly, annual)</li>
+        <li>Campaign start and end dates</li>
+        <li>Reward structure and slab details</li>
+        <li>Target for each enrolled campaign</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-title">Live performance data</div>
+      <ul>
+        <li>Current achievement against target</li>
+        <li>Achievement percentage</li>
+        <li>Points earned to date in this period</li>
+        <li>Current slab the outlet is in</li>
+        <li>Points in process (pending approval)</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="callout callout-green">
+    <div class="cl">Designed for sales conversations</div>
+    <p>
+      The loyalty view in call prep is designed to equip the GT user with precise,
+      real-time knowledge before engaging the outlet owner. With visibility into
+      current achievement and slab position, the GT user can have a targeted
+      conversation about what the outlet needs to do to reach the next reward tier.
+      Automated nudges and recommendations are planned for a future phase.
+    </p>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════
+     08 — SCOPE SUMMARY
+══════════════════════════════════════ -->
+<section>
+  <div class="section-head">
+    <span class="section-num">08</span>
+    <h2>Scope summary</h2>
+  </div>
+  <p>
+    The following capabilities are in scope for the Loyalty Onboarding flow.
+    This is a Version 1 scope document — items may be refined, reprioritised,
+    or extended based on further discussion and client requirements.
+  </p>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th style="width:220px;">Capability</th><th>Description</th><th style="width:100px;">Status</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Outlet registration flow</td>
+          <td>GT user-initiated flow with admin-configured KYC capture and optional campaign selection.</td>
+          <td><span class="badge badge-blue">In Scope</span></td>
+        </tr>
+        <tr>
+          <td>Third-party KYC verification</td>
+          <td>Background document verification via a configurable third-party API. Documents and fields to be verified are defined in admin configuration.</td>
+          <td><span class="badge badge-amber">TBD</span></td>
+        </tr>
+        <tr>
+          <td>Registration approval flow</td>
+          <td>Manager approval with approve, reject, and campaign modification capability via the Approval Mechanism.</td>
+          <td><span class="badge badge-blue">In Scope</span></td>
+        </tr>
+        <tr>
+          <td>Standalone campaign enrollment</td>
+          <td>Separate request and approval flow for enrolling registered outlets into campaigns post-registration.</td>
+          <td><span class="badge badge-blue">In Scope</span></td>
+        </tr>
+        <tr>
+          <td>Outlet status lifecycle</td>
+          <td>Three-state status model — Not Registered, Registered, Enrolled — managed and updated by the system.</td>
+          <td><span class="badge badge-blue">In Scope</span></td>
+        </tr>
+        <tr>
+          <td>GT user loyalty dashboard</td>
+          <td>Territory-level metrics — eligible, registered, enrolled, pending — with request tracking section.</td>
+          <td><span class="badge badge-blue">In Scope</span></td>
+        </tr>
+        <tr>
+          <td>Call prep loyalty CTA</td>
+          <td>Adaptive CTA on outlet call prep screen — shows registration, enrollment, or full loyalty view based on status.</td>
+          <td><span class="badge badge-blue">In Scope</span></td>
+        </tr>
+        <tr>
+          <td>Full loyalty view (enrolled outlets)</td>
+          <td>Campaign details, live achievement, slab position, and points earned — visible to GT user in call prep.</td>
+          <td><span class="badge badge-blue">In Scope</span></td>
+        </tr>
+        <tr>
+          <td>Sales nudges / recommendations</td>
+          <td>Automated suggestions to GT user based on outlet's slab position and achievement gap.</td>
+          <td><span class="badge badge-gray">Future Phase</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════
+     FOOTER
+══════════════════════════════════════ -->
+<div class="footer">
+  <span>Loyalty Onboarding Flow &nbsp;·&nbsp; Version 1.0</span>
+  <span>May 2026 &nbsp;·&nbsp; Draft — subject to iteration</span>
+</div>
+
+</div><!-- /wrap -->
+</body>
+</html>
